@@ -1,0 +1,10 @@
+[requires]
+catch2/2.13.3
+
+[generators]
+#cmake_find_package
+cmake
+
+[imports]
+bin, *.dll -> ./bin
+lib, *.dylib* -> ./bin
