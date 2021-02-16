@@ -1,26 +1,6 @@
-#include <exception> // for exception
-#include <iosfwd>    // for string
-#include <memory>    // for unique_ptr
-#include <utility>   // for pair
-#include <vector>    // for vector
 
-#include "catch2/catch.hpp" // for AssertionHandler, SourceLi...
-#include "rapidcheck.h"     // IWYU pragma: keep
-
-#include "rapidcheck/Assertions.h"        // for RC_ASSERT
-#include "rapidcheck/Check.hpp"           // for check
-#include "rapidcheck/Gen.hpp"             // for Gen::Gen<T>, Gen::~Gen<T>
-#include "rapidcheck/GenerationFailure.h" // for GenerationFailure
-#include "rapidcheck/Maybe.h"             // for Maybe
-#include "rapidcheck/Maybe.hpp"           // for Maybe::Maybe<T>, Maybe::op...
-#include "rapidcheck/Seq.h"               // for Seq
-#include "rapidcheck/Seq.hpp"             // for Seq::next
-#include "rapidcheck/Shrinkable.h"        // for Shrinkable
-#include "rapidcheck/Shrinkable.hpp"      // for Shrinkable::~Shrinkable<T>
-#include "rapidcheck/detail/Any.hpp"      // for Any::get
-#include "rapidcheck/detail/Results.h"    // for CaseResult
-#include "rapidcheck/detail/Variant.hpp"  // for Variant::is
-#include "rapidcheck/gen/Text.hpp"        // for Arbitrary
+#include "catch2/catch.hpp"
+#include "rapidcheck/rapidcheck.h"
 
 std::vector<int> kmp_table(const std::string& needle) {
     std::vector<int> table(needle.size() + 1);
