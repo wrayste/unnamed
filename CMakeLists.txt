@@ -6,6 +6,9 @@ set(CMAKE_CXX_FLAGS "-I/Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/u
 include(build/conanbuildinfo.cmake)
 conan_basic_setup()
 
+set(ENABLE_INCLUDE_WHAT_YOU_USE TRUE)
+include(cmake/StaticAnalyzers.cmake)
+
 ENABLE_TESTING()
 INCLUDE(Dart)
 

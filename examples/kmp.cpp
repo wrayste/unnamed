@@ -1,30 +1,45 @@
-#include "catch2/catch.hpp"
+#include <exception> // for exception
+#include <iosfwd>    // for string
+#include <memory>    // for unique_ptr
+#include <utility>   // for pair
+#include <vector>    // for vector
 
-#include "rapidcheck.h"
+#include "catch2/catch.hpp" // for AssertionHandler, SourceLi...
+#include "rapidcheck.h"     // IWYU pragma: keep
 
-std::vector<int> kmp_table(const std::string& w) {
-    std::vector<int> t(w.size() + 1);
+#include "rapidcheck/Assertions.h"        // for RC_ASSERT
+#include "rapidcheck/Check.hpp"           // for check
+#include "rapidcheck/Gen.hpp"             // for Gen::Gen<T>, Gen::~Gen<T>
+#include "rapidcheck/GenerationFailure.h" // for GenerationFailure
+#include "rapidcheck/Maybe.h"             // for Maybe
+#include "rapidcheck/Maybe.hpp"           // for Maybe::Maybe<T>, Maybe::op...
+#include "rapidcheck/Seq.h"               // for Seq
+#include "rapidcheck/Seq.hpp"             // for Seq::next
+#include "rapidcheck/Shrinkable.h"        // for Shrinkable
+#include "rapidcheck/Shrinkable.hpp"      // for Shrinkable::~Shrinkable<T>
+#include "rapidcheck/detail/Any.hpp"      // for Any::get
+#include "rapidcheck/detail/Results.h"    // for CaseResult
+#include "rapidcheck/detail/Variant.hpp"  // for Variant::is
+#include "rapidcheck/gen/Text.hpp"        // for Arbitrary
 
-    int pos = 1;
+std::vector<int> kmp_table(const std::string& needle) {
+    std::vector<int> table(needle.size() + 1);
+    table[0] = -1;
+
     int cnd = 0;
 
-    t[0] = -1;
-
-    while (pos < w.size()) {
-        if (w[pos] == w[cnd]) {
-            t[pos] = t[cnd];
+    for (int pos = 1; pos < needle.size(); ++pos, ++cnd) {
+        if (needle[pos] == needle[cnd]) {
+            table[pos] = table[cnd];
         } else {
-            t[pos] = cnd;
-            while (0 <= cnd && w[pos != w[cnd]]) {
-                cnd = t[cnd];
-            }
+            for (table[pos] = cnd; 0 <= cnd && needle[pos] != needle[cnd];
+                 cnd = table[cnd])
+                ;
         }
-        ++pos;
-        ++cnd;
     }
 
-    t[pos] = cnd;
-    return t;
+    table[needle.size()] = cnd;
+    return table;
 }
 
 int kmp_search(const std::string& s, const std::string& w) {
@@ -56,8 +71,8 @@ int kmp_search(const std::string& s, const std::string& w) {
 }
 
 TEST_CASE("kmp", "[examples]") {
-    REQUIRE(rc::check("string find",
-            [](const std::string& needle, const std::string& haystack) {
-              RC_ASSERT(kmp_search(haystack, needle) == haystack.find(needle));
-            }));
+    REQUIRE(rc::check("string find", [](const std::string& needle,
+                                        const std::string& haystack) {
+        RC_ASSERT(kmp_search(haystack, needle) == haystack.find(needle));
+    }));
 }
