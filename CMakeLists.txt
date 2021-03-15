@@ -12,5 +12,6 @@ include(cmake/StaticAnalyzers.cmake)
 ENABLE_TESTING()
 INCLUDE(Dart)
 
+ADD_SUBDIRECTORY(dojo)
 ADD_SUBDIRECTORY(examples)
 ADD_SUBDIRECTORY(external)
