@@ -10,9 +10,7 @@ int approximateMedium(const std::vector<int>& input) {
         return 0;
     }
 
-    std::random_device rand_dev;
-    std::mt19937 generator(rand_dev());
-
+    std::mt19937 generator;
     std::uniform_int_distribution<int> distribution(0, input.size() - 1);
 
     const size_t k = 10 * log2(input.size());
